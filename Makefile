@@ -1,16 +1,22 @@
-.PHONY : all resultsresults  clean help settings
+.PHONY : all results test-saveconfig clean help settings
 
 include config.mk
 
+PARAMS=bin/plotparams.yml
 DATA=$(wildcard data/*.txt)
 RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))
 
 ## all : regenerate all results.
 all : results/collated.png
 
-## results/collated.png: plot the collated results.
-results/collated.png : results/collated.csv $(PLOT)
-	python $(PLOT) $< --outfile $@
+## results/collated.png : plot the collated results.
+results/collated.png : results/collated.csv $(PARAMS) $(PLOT)
+	python $(PLOT) $< --plotparams $(word 2,$^) --outfile $@
+
+## test-saveconfig : saves plot configuration.
+test-saveconfig : results/collated.csv $(PLOT)
+	python $(PLOT) $< --saveconfig /tmp/test-saveconfig.yml \
+	    --plotparams $(PARAMS)
 
 ## results/collated.csv : collate all results.
 results/collated.csv : $(RESULTS) $(COLLATE)
@@ -36,6 +42,7 @@ settings :
 	@echo DATA: $(DATA)
 	@echo RESULTS: $(RESULTS)
 	@echo COLLATE: $(COLLATE)
+	@echo PARAMS: $(PARAMS)
 	@echo PLOT: $(PLOT)
 	@echo SUMMARY: $(SUMMARY)
 	@echo MAKEFILE_LIST: ${MAKEFILE_LIST}

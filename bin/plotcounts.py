@@ -2,7 +2,10 @@
 
 import argparse
 
+import yaml
 import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.optimize import minimize_scalar
 
@@ -83,8 +86,28 @@ def plotcounts(infile, outfile, xlim):
     plot_fit(curve_xmin, curve_xmax, max_rank, alpha, ax)
     ax.figure.savefig(outfile)
 
+def set_plot_params(param_file):
+    """Set the matplotlib parameters."""
+    if param_file:
+        with open(param_file, 'r') as reader:
+            param_dict = yaml.load(reader,
+                                   Loader=yaml.BaseLoader)
+    else:
+        param_dict = {}
+    for param, value in param_dict.items():
+        mpl.rcParams[param] = value
+
+def save_configuration(file, params):
+    """Save configuration to a file."""
+    yaml.dump(params, file)
+
 def main(args):
     """Run the command line program."""
+    if args.style:
+        plt.style.use(args.style)
+    set_plot_params(args.plotparams)
+    if args.saveconfig:
+        save_configuration(args.saveconfig, mpl.rcParams)
     plotcounts(args.infile, args.outfile, args.xlim)
 
 if __name__ == '__main__':
@@ -98,6 +121,15 @@ if __name__ == '__main__':
     parser.add_argument('--xlim', type=float, nargs=2,
                         metavar=('XMIN', 'XMAX'),
                         default=None, help='X-axis limits')
+    parser.add_argument('--plotparams', type=str, default=None,
+                        help='matplotlib parameters (YAML file)')
+    parser.add_argument('--style', type=str, 
+                        nargs='*', default=None,
+                        choices=plt.style.available,
+                        help='matplotlib style')
+    parser.add_argument('--saveconfig', type=argparse.FileType('w'),
+                        default=None,
+                        help='Save configuration to file')
     args = parser.parse_args()
     main(args)
 
