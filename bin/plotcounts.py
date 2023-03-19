@@ -85,8 +85,7 @@ def plotcounts(infile, outfile, xlim):
 
 def main(args):
     """Run the command line program."""
-    outfile = f'results/{args.outfile}.png'
-    plotcounts(args.infile, outfile, args.xlim)
+    plotcounts(args.infile, args.outfile, args.xlim)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
