@@ -1,2 +1,6 @@
 # Ignore python cache
 __pycache__
+
+# Ignoring coverage reports
+.coverage
+htmlcov/
