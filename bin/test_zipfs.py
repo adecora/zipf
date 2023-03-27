@@ -5,6 +5,8 @@ import numpy as np
 
 import plotcounts
 import countwords
+import collate
+import utilities as util
 
 def test_regression():
     """Regresssion test for Dracula."""
@@ -57,3 +59,18 @@ def test_word_count():
     with open('test_data/risk.txt', 'r') as reader:
         actual_result = countwords.count_words(reader)
     assert actual_result == expected_result
+
+def test_not_csv_error():
+    """Error handling test for csv check"""
+    fname = 'data/dracula.txt'
+    word_counts = Counter()
+    msg = util.ERRORS['not_csv_suffix'].format(fname=fname)
+    with pytest.raises(OSError, match=msg):
+        collate.process_file(fname, word_counts)
+
+def test_missing_file_error():
+    """Error handling test for missing file"""
+    fname = 'result/fake_file.csv'
+    word_counts = Counter()
+    with pytest.raises(FileNotFoundError):
+        collate.process_file(fname, word_counts)
