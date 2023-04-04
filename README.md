@@ -15,5 +15,6 @@ you agree to abide by its terms.
 
 ## Contributors
 
+- Alejandro de Cora <alejandrodecora@gmail.com>
 - Amira Khan <amira@zipf.org>
 
