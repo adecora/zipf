@@ -8,7 +8,7 @@ import argparse
 from collections import Counter
 import logging
 
-from pyzipf import utilities as util
+import utilities as util
 
 def update_counts(reader, word_counts):
     """Update word counts with data from another reader/file."""

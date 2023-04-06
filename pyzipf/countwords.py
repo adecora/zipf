@@ -7,7 +7,7 @@ import argparse
 import string
 from collections import Counter
 
-from pyzipf import utilities as util
+import utilities as util
 
 def count_words(reader):
     """Count the occurrence of each word in a string."""
