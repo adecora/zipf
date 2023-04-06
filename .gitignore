@@ -4,3 +4,15 @@ __pycache__
 # Ignoring coverage reports
 .coverage
 htmlcov/
+
+# Ignore setuptools tracking
+pyzipf_cora.egg-info
+
+# Ignore distribution folder
+dist
+
+# Ignore Sphinx internals
+docs/_build
+docs/_static
+docs/_templates
+docs/make.bat

@@ -103,16 +103,8 @@ def save_configuration(file, params):
     """Save configuration to a file."""
     yaml.dump(params, file)
 
-def main(args):
-    """Run the command line program."""
-    if args.style:
-        plt.style.use(args.style)
-    set_plot_params(args.plotparams)
-    if args.saveconfig:
-        save_configuration(args.saveconfig, mpl.rcParams)
-    plotcounts(args.infile, args.outfile, args.xlim)
-
-if __name__ == '__main__':
+def parse_command_line():
+    """Parse the command line for input arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('infile', type=argparse.FileType('r'),
                         nargs='?', default='-',
@@ -133,5 +125,19 @@ if __name__ == '__main__':
                         default=None,
                         help='Save configuration to file')
     args = parser.parse_args()
-    main(args)
+    return args
+
+def main():
+    """Run the command line program."""
+    args = parse_command_line()
+    if args.style:
+        plt.style.use(args.style)
+    set_plot_params(args.plotparams)
+    if args.saveconfig:
+        save_configuration(args.saveconfig, mpl.rcParams)
+    plotcounts(args.infile, args.outfile, args.xlim)
+
+
+if __name__ == '__main__':
+    main()
 

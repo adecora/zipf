@@ -6,7 +6,7 @@ import numpy as np
 import plotcounts
 import countwords
 import collate
-import utilities as util
+from pyzipf import utilities as util
 
 def test_regression():
     """Regresssion test for Dracula."""
